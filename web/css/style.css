@@ -1,0 +1,57 @@
+header {
+    position: relative;
+}
+
+#main-menu {
+    width: 50px;
+    margin-right: 20px;
+}
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 5px 8px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+/* product-list */
+
+img {max-width:100%;}
+*{transition: all .5s ease;-moz-transition: all .5s ease;-webkit-transition: all .5s ease}
+.my-list {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #f5efef;
+    float: left;
+    margin: 15px 0;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px #c7ede6;
+    position: relative;
+    overflow: hidden
+}
+.my-list h3{
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 21px;
+    margin: 0px;
+    padding: 0px;
+    border-bottom: 1px solid #ccc4c4;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    height: 50px;
+    padding-top: 5px;
+}
+.my-list h5{
+    text-align: center;
+    font-weight: normal;
+    color: orangered;
+}
+.my-list img{
+    height: 250px;
+}
+
+#function {
+    text-align: center;
+}
