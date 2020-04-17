@@ -1,6 +1,7 @@
 package model;
 
 public class OrderItem {
+    private int id;
     private String name;
     private String image;
     private int quantity;
@@ -15,6 +16,22 @@ public class OrderItem {
         this.quantity = quantity;
         this.item_price = item_price;
         this.image = image;
+    }
+
+    public OrderItem(int id, String name, String image, int quantity, long item_price) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.quantity = quantity;
+        this.item_price = item_price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

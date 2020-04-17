@@ -23,6 +23,24 @@ public class OrderServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if(action == null){
+            action = "";
+        }
+        switch (action){
+            case "remove":
+                removeOrderItem(request,response);
+                break;
+            default:
+                showOrderList(request, response);
+                break;
+        }
+
+
+
+    }
+
+    private void showOrderList(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String username = String.valueOf(request.getSession(false).getAttribute("username"));
         if(username == "null"){
             response.sendRedirect("/login");
@@ -31,6 +49,16 @@ public class OrderServlet extends HttpServlet {
             request.setAttribute("orderItemList",orderItemList);
             RequestDispatcher dispatcher = request.getRequestDispatcher("view/product/order.jsp");
             dispatcher.forward(request, response);
+        }
+    }
+
+    private void removeOrderItem(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        orderDAO.removeOrderItem(id);
+        try {
+            response.sendRedirect("/order");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

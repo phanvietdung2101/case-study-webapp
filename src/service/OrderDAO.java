@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAO implements IOrderDAO {
+    private static final String QUERY_REMOVE_ORDER_ITEM = "{call remove_order_item(?)}";
     private MySqlConnection mySqlConnection = new MySqlConnection();
     private final String QUERY_FIND_ORDER_ITEM = "{call find_order_list(?)}";
 
@@ -23,11 +24,12 @@ public class OrderDAO implements IOrderDAO {
             statement.setString(1,username);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
+                int id = resultSet.getInt("id");
                 String product_name = resultSet.getString("name");
                 int quantity = resultSet.getInt("quantity");
                 long item_price = resultSet.getLong("item_price");
                 String image = resultSet.getString("image");
-                orderItemList.add(new OrderItem(product_name,image,quantity,item_price));
+                orderItemList.add(new OrderItem(id,product_name,image,quantity,item_price));
             }
             if(resultSet != null){
                 resultSet.close();
@@ -36,6 +38,21 @@ public class OrderDAO implements IOrderDAO {
             e.printStackTrace();
         }
         return orderItemList;
+    }
+
+    @Override
+    public boolean removeOrderItem(int id) {
+        boolean rowRemoved = false;
+        try (
+                Connection connection = mySqlConnection.getConnection();
+                CallableStatement callableStatement = connection.prepareCall(QUERY_REMOVE_ORDER_ITEM);
+        ){
+            callableStatement.setInt(1,id);
+            rowRemoved = callableStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowRemoved;
     }
 
 }

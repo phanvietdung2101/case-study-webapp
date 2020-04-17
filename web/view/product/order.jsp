@@ -86,7 +86,7 @@
                             <td>In stock</td>
                             <td><input class="form-control" type="text" value="${orderItem.getQuantity()}"/></td>
                             <td class="text-right">${orderItem.getItem_price()}</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                            <td class="text-right"><a href="/order?action=remove&id=${orderItem.getId()}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </a> </td>
                         </tr>
                     </c:forEach>
                     <tr>
