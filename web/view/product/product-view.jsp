@@ -21,7 +21,6 @@
 <body>
 <c:set var="product" scope="request" value="${product}"></c:set>
 <div class="container">
-    <%@include file="header.jsp"%>
     <div class="card">
         <div class="row">
             <aside class="col-sm-5 border-right">

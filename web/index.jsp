@@ -51,19 +51,10 @@
                     </div>
                 </div>
 <%--                Cart --%>
-                <%
-                    if(session.getAttribute("username ") != null){
-                %>
                 <a class="btn btn-success btn-sm ml-3" href="/order">
                     <i class="fa fa-shopping-cart"></i> Cart
                     <span class="badge badge-light">3</span>
                 </a>
-                <% } else {%>
-                <a class="btn btn-success btn-sm ml-3" href="/login">
-                    <i class="fa fa-shopping-cart"></i> Cart
-                    <span class="badge badge-light">3</span>
-                </a>
-                <% } %>
                 <div class="dropdown">
                     <button class="btn btn-success btn-sm ml-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Account

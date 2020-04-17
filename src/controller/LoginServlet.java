@@ -15,6 +15,7 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet",urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private UserDAO userDAO = new UserDAO();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
