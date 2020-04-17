@@ -6,6 +6,7 @@ public class OrderItem {
     private String image;
     private int quantity;
     private long item_price;
+    private int order_id;
 
 
     public OrderItem() {
@@ -18,12 +19,13 @@ public class OrderItem {
         this.image = image;
     }
 
-    public OrderItem(int id, String name, String image, int quantity, long item_price) {
+    public OrderItem(int id, String name, String image, int quantity, long item_price, int order_id) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.quantity = quantity;
         this.item_price = item_price;
+        this.order_id = order_id;
     }
 
     public int getId() {

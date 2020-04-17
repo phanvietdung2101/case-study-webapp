@@ -29,7 +29,8 @@ public class OrderDAO implements IOrderDAO {
                 int quantity = resultSet.getInt("quantity");
                 long item_price = resultSet.getLong("item_price");
                 String image = resultSet.getString("image");
-                orderItemList.add(new OrderItem(id,product_name,image,quantity,item_price));
+                int order_id = resultSet.getInt("order_id");
+                orderItemList.add(new OrderItem(id,product_name,image,quantity,item_price, order_id));
             }
             if(resultSet != null){
                 resultSet.close();

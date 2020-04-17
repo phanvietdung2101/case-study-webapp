@@ -85,7 +85,7 @@
                             <td>${orderItem.getName()}</td>
                             <td>In stock</td>
                             <td><input class="form-control" type="text" value="${orderItem.getQuantity()}"/></td>
-                            <td class="text-right">${orderItem.getItem_price()}</td>
+                            <td class="text-right">${orderItem.getItem_price()} vnđ</td>
                             <td class="text-right"><a href="/order?action=remove&id=${orderItem.getId()}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </a> </td>
                         </tr>
                     </c:forEach>
@@ -95,7 +95,7 @@
                         <td></td>
                         <td></td>
                         <td>Sub-Total</td>
-                        <td class="text-right">255,90 €</td>
+                        <td class="text-right"><3</td>
                     </tr>
                     <tr>
                         <td></td>
@@ -103,7 +103,7 @@
                         <td></td>
                         <td></td>
                         <td>Shipping</td>
-                        <td class="text-right">6,90 €</td>
+                        <td class="text-right">111111</td>
                     </tr>
                     <tr>
                         <td></td>
@@ -111,7 +111,7 @@
                         <td></td>
                         <td></td>
                         <td><strong>Total</strong></td>
-                        <td class="text-right"><strong>346,90 €</strong></td>
+                        <td class="text-right"><strong>${requestScope.totalPrice + 111111} vnđ</strong></td>
                     </tr>
                     </tbody>
                 </table>
@@ -120,10 +120,10 @@
         <div class="col mb-2">
             <div class="row">
                 <div class="col-sm-12  col-md-6">
-                    <button class="btn btn-block btn-light">Continue Shopping</button>
+                    <a href="/index" class="btn btn-block btn-light">Continue Shopping</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
-                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+                    <a class="btn btn-lg btn-block btn-success text-uppercase" href="/order?action=checkout">Checkout</a>
                 </div>
             </div>
         </div>

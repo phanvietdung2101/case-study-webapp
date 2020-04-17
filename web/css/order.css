@@ -58,3 +58,7 @@ footer {
 footer a {
     color: #f8f9fa!important
 }
+img {
+    max-height: 50px;
+    max-width: 50px;
+}

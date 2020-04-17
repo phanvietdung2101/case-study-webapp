@@ -46,6 +46,11 @@ public class OrderServlet extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             List<OrderItem> orderItemList = orderDAO.findAllOrderItemByUsername(username);
+            int totalPrice = 0;
+            for(OrderItem orderItem : orderItemList){
+                totalPrice += orderItem.getItem_price();
+            }
+            request.setAttribute("totalPrice",totalPrice);
             request.setAttribute("orderItemList",orderItemList);
             RequestDispatcher dispatcher = request.getRequestDispatcher("view/product/order.jsp");
             dispatcher.forward(request, response);
