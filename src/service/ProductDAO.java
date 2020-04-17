@@ -10,12 +10,13 @@ public class ProductDAO implements IProductDAO{
 
     private static final String QUERY_FIND_ALL = "SELECT * FROM view_all";
     private static final String QUERY_FIND_BY_ID = "SELECT * FROM Product where id = ?";
+    private MySqlConnection mySqlConnection = new MySqlConnection();
 
     @Override
     public List<Product> findAll() {
         List<Product> productList = new ArrayList<>();
         try (
-                Connection connection = getConnection();
+                Connection connection = mySqlConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(QUERY_FIND_ALL);
                 ResultSet resultSet = statement.executeQuery()
             )
@@ -34,25 +35,12 @@ public class ProductDAO implements IProductDAO{
         return productList;
     }
 
-    @Override
-    public Connection getConnection() {
-        Connection conn = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop_online_m3", "root", "password");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return conn;
-    }
 
     @Override
     public Product findById(int id) {
         Product product = null;
         try(
-                Connection connection = getConnection();
+                Connection connection = mySqlConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BY_ID)
         ) {
             statement.setInt(1,id);

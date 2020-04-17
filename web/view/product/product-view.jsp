@@ -21,12 +21,13 @@
 <body>
 <c:set var="product" scope="request" value="${product}"></c:set>
 <div class="container">
+    <%@include file="header.jsp"%>
     <div class="card">
         <div class="row">
             <aside class="col-sm-5 border-right">
                 <article class="gallery-wrap" style=>
                     <div class="img-big-wrap">
-                        <div> <a href="#"><img src="${product.getImage()}"></a></div>
+                        <div> <a href="#"><img src="${product.getImage()}" id="product-img"></a></div>
                     </div> <!-- slider-product.// -->
 <%--                    <div class="img-small-wrap">--%>
 <%--                        <div class="item-gallery">  </div>--%>
