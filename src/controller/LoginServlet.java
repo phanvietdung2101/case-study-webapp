@@ -26,7 +26,9 @@ public class LoginServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         if(user != null){
             String name = user.getName();
+            int id = user.getId();
             HttpSession session = request.getSession();
+            session.setAttribute("userid",id);
             session.setAttribute("username",name);
             session.setAttribute("email",email);
             response.sendRedirect("/index");

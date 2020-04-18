@@ -60,11 +60,16 @@
                         Account
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <%
-                            if(session.getAttribute("username") != null){
-                        %>
-                        <a class="dropdown-item" >Hello, <%=session.getAttribute("username") %></a>
-                        <%} %>
+<%--                        <%--%>
+<%--                            if(session.getAttribute("username") != null){--%>
+<%--                        %>--%>
+<%--                        <a class="dropdown-item" >Hello, <%=session.getAttribute("username") %></a>--%>
+<%--                        <%} %>--%>
+                        <c:if test="${sessionScope.username != null}">
+                            <a class="dropdown-item">
+                                Hello, <c:out value="${requestScope.username}"></c:out>
+                            </a>
+                        </c:if>
                         <a class="dropdown-item" href="/account">Account detail</a>
                         <a class="dropdown-item" href="/account?action=change">Change password</a>
                         <a class="dropdown-item" href="/account?action=logout">Log out</a>
@@ -122,7 +127,7 @@
                                         <p class="btn btn-danger btn-block">${product.getPrice()}</p>
                                     </div>
                                     <div class="col">
-                                        <a href="#" class="btn btn-success btn-block">Add</a>
+                                        <a href="/index?action=add_to_cart&product_id=${product.getId()}&user_id=${sessionScope.userid}" class="btn btn-success btn-block">Add</a>
                                     </div>
                                 </div>
                             </div>

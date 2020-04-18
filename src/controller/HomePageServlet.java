@@ -1,6 +1,7 @@
 package controller;
 
 import model.Product;
+import service.OrderDAO;
 import service.ProductDAO;
 
 import javax.servlet.RequestDispatcher;
@@ -27,13 +28,35 @@ public class HomePageServlet extends HttpServlet {
             action = "";
         }
         switch (action){
+            case "add_to_cart":
+                addToCard(request,response);
+                break;
             case "view":
                 showProduct(request,response);
                 break;
             default:
                 showHomepage(request,response);
                 break;
+
         }
+    }
+
+    private void addToCard(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+            if (request.getParameter("user_id") != null) {
+                int product_id = Integer.parseInt(request.getParameter("product_id"));
+                int user_id = Integer.parseInt(request.getParameter("user_id"));
+                OrderDAO orderDAO = new OrderDAO();
+                orderDAO.addOrderItem(product_id, user_id);
+                response.sendRedirect("/index");
+            } else {
+                response.sendRedirect("/login");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void showProduct(HttpServletRequest request, HttpServletResponse response) {

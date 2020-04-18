@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class UserDAO implements IUserDAO{
     private MySqlConnection mySqlConnection = new MySqlConnection();
-    private final String QUERY_FIND_USER_LOGIN = "select name from User where email = ? and password = ?;";
+    private final String QUERY_FIND_USER_LOGIN = "select id,name,email from User where email = ? and password = ?;";
     private final String QUERY_FIND_USER_DETAIL = "select * from User where email = ?";
     private final String QUERY_CALL_CHANGE_PASSWORD = "{call changePassword(?,?)}";
 
@@ -23,7 +23,8 @@ public class UserDAO implements IUserDAO{
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
                 String name = resultSet.getString("name");
-                user = new User(name);
+                int id = resultSet.getInt("id");
+                user = new User(id,name,email);
             }
             if(resultSet != null){
                 resultSet.close();

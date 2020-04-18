@@ -12,6 +12,7 @@ import java.util.List;
 public class OrderDAO implements IOrderDAO {
     private static final String QUERY_REMOVE_ORDER_ITEM = "{call remove_order_item(?)}";
     private static final String QUERY_CHECK_OUT_ORDER = "{call check_out_all_item(?)}";
+    private static final String QUERY_ADD_ORDER_ITEM = "{call addOrderItem(?,?)}";
     private MySqlConnection mySqlConnection = new MySqlConnection();
     private final String QUERY_FIND_ORDER_ITEM = "{call find_order_list(?)}";
 
@@ -72,11 +73,28 @@ public class OrderDAO implements IOrderDAO {
         return ischeckOut;
     }
 
+    @Override
+    public boolean addOrderItem(int product_id, int user_id) {
+        boolean isAdd = false;
+        try (
+                Connection connection = mySqlConnection.getConnection();
+                CallableStatement callableStatement = connection.prepareCall(QUERY_ADD_ORDER_ITEM);
+                ) {
+            callableStatement.setInt(1,user_id);
+            callableStatement.setInt(2,product_id);
+            isAdd = callableStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isAdd;
+    }
+
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();
-        System.out.println(orderDAO.checkOutOrder(1));
-
+        System.out.println(orderDAO.addOrderItem(3,1));
     }
+
+
 
 
 }
