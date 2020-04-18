@@ -123,7 +123,7 @@
                     <a href="/index" class="btn btn-block btn-light">Continue Shopping</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
-                    <a class="btn btn-lg btn-block btn-success text-uppercase" href="/order?action=checkout">Checkout</a>
+                    <a class="btn btn-lg btn-block btn-success text-uppercase" href="/order?action=checkout&id=${requestScope.order_id}">Checkout</a>
                 </div>
             </div>
         </div>

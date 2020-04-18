@@ -67,4 +67,12 @@ public class OrderItem {
     public void setItem_price(long item_price) {
         this.item_price = item_price;
     }
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
+    }
 }

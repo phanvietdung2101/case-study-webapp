@@ -31,6 +31,9 @@ public class OrderServlet extends HttpServlet {
             case "remove":
                 removeOrderItem(request,response);
                 break;
+            case "checkout":
+                checkOutOrder(request,response);
+                break;
             default:
                 showOrderList(request, response);
                 break;
@@ -38,6 +41,18 @@ public class OrderServlet extends HttpServlet {
 
 
 
+    }
+
+    private void checkOutOrder(HttpServletRequest request, HttpServletResponse response) {
+        int order_id = Integer.parseInt(request.getParameter("id"));
+        if(order_id != 0){
+            orderDAO.checkOutOrder(order_id);
+        }
+        try {
+            response.sendRedirect("/order");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showOrderList(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -50,6 +65,11 @@ public class OrderServlet extends HttpServlet {
             for(OrderItem orderItem : orderItemList){
                 totalPrice += orderItem.getItem_price();
             }
+            int order_id = 0;
+            if(orderItemList.size() > 0) {
+                order_id = orderItemList.get(0).getOrder_id();
+            }
+            request.setAttribute("order_id",order_id);
             request.setAttribute("totalPrice",totalPrice);
             request.setAttribute("orderItemList",orderItemList);
             RequestDispatcher dispatcher = request.getRequestDispatcher("view/product/order.jsp");
@@ -66,4 +86,6 @@ public class OrderServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+
 }

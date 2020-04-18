@@ -11,6 +11,7 @@ import java.util.List;
 
 public class OrderDAO implements IOrderDAO {
     private static final String QUERY_REMOVE_ORDER_ITEM = "{call remove_order_item(?)}";
+    private static final String QUERY_CHECK_OUT_ORDER = "{call check_out_all_item(?)}";
     private MySqlConnection mySqlConnection = new MySqlConnection();
     private final String QUERY_FIND_ORDER_ITEM = "{call find_order_list(?)}";
 
@@ -42,18 +43,40 @@ public class OrderDAO implements IOrderDAO {
     }
 
     @Override
-    public boolean removeOrderItem(int id) {
+    public boolean removeOrderItem(int item_id) {
         boolean rowRemoved = false;
         try (
                 Connection connection = mySqlConnection.getConnection();
                 CallableStatement callableStatement = connection.prepareCall(QUERY_REMOVE_ORDER_ITEM);
         ){
-            callableStatement.setInt(1,id);
+            callableStatement.setInt(1, item_id);
             rowRemoved = callableStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return rowRemoved;
     }
+
+    @Override
+    public boolean checkOutOrder(int order_id) {
+        boolean ischeckOut = false;
+        try (
+                Connection connection = mySqlConnection.getConnection();
+                CallableStatement callableStatement = connection.prepareCall(QUERY_CHECK_OUT_ORDER)
+        ) {
+            callableStatement.setInt(1,order_id);
+            ischeckOut = callableStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ischeckOut;
+    }
+
+    public static void main(String[] args) {
+        OrderDAO orderDAO = new OrderDAO();
+        System.out.println(orderDAO.checkOutOrder(1));
+
+    }
+
 
 }
