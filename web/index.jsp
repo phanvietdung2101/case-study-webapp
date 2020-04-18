@@ -37,7 +37,7 @@
                     <a class="nav-link" href="/order">Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
+                    <a class="nav-link" href="/account">Account</a>
                 </li>
             </ul>
 
@@ -65,9 +65,9 @@
                         %>
                         <a class="dropdown-item" >Hello, <%=session.getAttribute("username") %></a>
                         <%} %>
-                        <a class="dropdown-item" href="#">Account detail</a>
-                        <a class="dropdown-item" href="#">Change password</a>
-                        <a class="dropdown-item" href="#">Log out</a>
+                        <a class="dropdown-item" href="/account">Account detail</a>
+                        <a class="dropdown-item" href="/account?action=change">Change password</a>
+                        <a class="dropdown-item" href="/account?action=logout">Log out</a>
                     </div>
                 </div>
             </form>

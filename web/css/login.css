@@ -36,6 +36,7 @@ h2 {
     width: 100%;
     min-height: 100%;
     padding: 20px;
+    background-color: #e6e6e6;
 }
 
 #formContent {
@@ -276,5 +277,5 @@ input[type=text]:placeholder {
 }
 
 #icon {
-    width:60%;
+    max-width:100px;
 }
