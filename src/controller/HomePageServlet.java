@@ -1,6 +1,7 @@
 package controller;
 
 import model.Product;
+import model.User;
 import service.OrderDAO;
 import service.ProductDAO;
 
@@ -42,11 +43,11 @@ public class HomePageServlet extends HttpServlet {
     }
 
     private void addToCard(HttpServletRequest request, HttpServletResponse response) {
-
+        User user = (User) request.getSession().getAttribute("user");
         try {
-            if (request.getParameter("user_id") != null) {
+            if (user != null) {
                 int product_id = Integer.parseInt(request.getParameter("product_id"));
-                int user_id = Integer.parseInt(request.getParameter("user_id"));
+                int user_id = user.getId();
                 OrderDAO orderDAO = new OrderDAO();
                 orderDAO.addOrderItem(product_id, user_id);
                 response.sendRedirect("/index");
@@ -82,6 +83,8 @@ public class HomePageServlet extends HttpServlet {
     private void showHomepage(HttpServletRequest request, HttpServletResponse response) {
         List<Product> productList = productDAO.findAll();
         request.setAttribute("productList",productList);
+        User user = new User(21,"fail","fail");
+        request.setAttribute("user",user);
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         try {
             dispatcher.forward(request,response);

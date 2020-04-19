@@ -67,7 +67,7 @@
 <%--                        <%} %>--%>
                         <c:if test="${sessionScope.username != null}">
                             <a class="dropdown-item">
-                                Hello, <c:out value="${requestScope.username}"></c:out>
+                                Hello, <c:out value="${requestScope['user'].getId()}"></c:out>
                             </a>
                         </c:if>
                         <a class="dropdown-item" href="/account">Account detail</a>
@@ -127,7 +127,7 @@
                                         <p class="btn btn-danger btn-block">${product.getPrice()}</p>
                                     </div>
                                     <div class="col">
-                                        <a href="/index?action=add_to_cart&product_id=${product.getId()}&user_id=${sessionScope.userid}" class="btn btn-success btn-block">Add</a>
+                                        <a href="/index?action=add_to_cart&product_id=${product.getId()}" class="btn btn-success btn-block">Add</a>
                                     </div>
                                 </div>
                             </div>

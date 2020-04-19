@@ -30,7 +30,7 @@
         <!-- Remind Passowrd -->
         <div id="formFooter">
             <a class="underlineHover" href="#">Forgot Password?</a><br>
-            <a class="underlineHover" href="#">Register User</a>
+            <a class="underlineHover" href="/login?action=register_user">Register User</a>
         </div>
 
 
