@@ -14,6 +14,7 @@ public interface IProductDAO {
     List<Product> findCategoryTag(String category_name,String tag_name);
     List<Category> listAllCategoryName();
     List<Tag> listAllTagName();
-
     Product findById(int id);
+
+    boolean addProduct(String name, long price, String image, String description, int category_id, int tag_id);
 }
