@@ -1,6 +1,8 @@
 package controller;
 
+import model.Category;
 import model.Product;
+import model.Tag;
 import model.User;
 import service.OrderDAO;
 import service.ProductDAO;
@@ -81,11 +83,33 @@ public class HomePageServlet extends HttpServlet {
     }
 
     private void showHomepage(HttpServletRequest request, HttpServletResponse response) {
-        List<Product> productList = productDAO.findAll();
+        String category_name = request.getParameter("category");
+        String tag_name = request.getParameter("tag");
+        List<Product> productList;
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/home/filter-product.jsp");
+
+        if(category_name != null && tag_name != null){
+            productList = productDAO.findCategoryTag(category_name,tag_name);
+        }
+        else if(category_name != null){
+            productList = productDAO.findCategory(category_name);
+        }
+        else if(tag_name != null){
+            productList = productDAO.findTag(tag_name);
+        }
+        else {
+            productList = productDAO.findAll();
+            dispatcher = request.getRequestDispatcher("index.jsp");
+        }
+
+
+
+        List<Category> categoryList = productDAO.listAllCategoryName();
+        List<Tag> tagList = productDAO.listAllTagName();
+
+        request.setAttribute("categoryList",categoryList);
+        request.setAttribute("tagList",tagList);
         request.setAttribute("productList",productList);
-        User user = new User(21,"fail","fail");
-        request.setAttribute("user",user);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         try {
             dispatcher.forward(request,response);
         } catch (ServletException e) {

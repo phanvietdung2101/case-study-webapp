@@ -115,18 +115,32 @@
             <div class="card bg-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Category</div>
                 <ul class="list-group category_block">
-                    <c:forEach items="${requestScope['categoryList']}" var="category">
-                        <li class="list-group-item"><a href="/index?category=${category.getName()}">${category.getName()}</a></li>
-                    </c:forEach>
+                    <c:choose>
+                        <c:when test="${param.category != null}">
+                            <li class="list-group-item"><a href="/index?category=${param.category}">${param.category}</a></li>
+                        </c:when>
+                        <c:when test="${param.category == null}">
+                            <c:forEach items="${requestScope['categoryList']}" var="category">
+                                <li class="list-group-item"><a href="/index?category=${category.getName()}&tag=${param.tag}">${category.getName()}</a></li>
+                            </c:forEach>
+                        </c:when>
+                    </c:choose>
                 </ul>
             </div>
 
             <div class="card bg-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Brand </div>
                 <ul class="list-group category_block">
-                    <c:forEach items="${requestScope['tagList']}" var="tag">
-                        <li class="list-group-item"><a href="/index?tag=${tag.getName()}">${tag.getName()}</a></li>
-                    </c:forEach>
+                    <c:choose>
+                        <c:when test="${param.tag != null }">
+                            <li class="list-group-item"><a href="/index?tag=${param.tag}">${param.tag}</a></li>
+                        </c:when>
+                        <c:when test="${param.tag == null }">
+                            <c:forEach items="${requestScope['tagList']}" var="tag">
+                                <li class="list-group-item"><a href="/index?tag=${tag.getName()}&category=${param.category}">${tag.getName()}</a></li>
+                            </c:forEach>
+                        </c:when>
+                    </c:choose>
                 </ul>
             </div>
         </div>
