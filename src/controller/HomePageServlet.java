@@ -37,11 +37,36 @@ public class HomePageServlet extends HttpServlet {
             case "view":
                 showProduct(request,response);
                 break;
+            case "search":
+                showHomepageSearchName(request,response);
+                break;
             default:
                 showHomepage(request,response);
                 break;
 
         }
+    }
+
+    private void showHomepageSearchName(HttpServletRequest request, HttpServletResponse response) {
+        String string = request.getParameter("string");
+        List<Product> productList = productDAO.searchByName(string);
+        List<Category> categoryList = productDAO.listAllCategoryName();
+        List<Tag> tagList = productDAO.listAllTagName();
+
+        request.setAttribute("categoryList",categoryList);
+        request.setAttribute("tagList",tagList);
+        request.setAttribute("productList",productList);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void addToCard(HttpServletRequest request, HttpServletResponse response) {

@@ -15,6 +15,7 @@ public interface IProductDAO {
     List<Category> listAllCategoryName();
     List<Tag> listAllTagName();
     Product findById(int id);
+    List<Product> searchByName(String string);
 
     boolean addProduct(String name, long price, String image, String description, int category_id, int tag_id);
 }

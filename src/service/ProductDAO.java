@@ -21,6 +21,7 @@ public class ProductDAO implements IProductDAO{
     private static final String QUERY_ADD_PRODUCT_DESCRIPTION = "insert into Product_description values (?,?)";
     private static final String QUERY_ADD_PRODUCT_CATEGORY = "insert into Product_category values (?,?)";
     private static final String QUERY_ADD_PRODUCT_TAG = "insert into Product_tag values (?,?)" ;
+    private static final String QUERY_SEARCH_BY_NAME = "{call search_by_name(?)}";
 
     private MySqlConnection mySqlConnection = new MySqlConnection();
 
@@ -62,7 +63,8 @@ public class ProductDAO implements IProductDAO{
                 String description = resultSet.getString("description");
                 long price = resultSet.getLong("price");
                 String image = resultSet.getString("image");
-                product = new Product(id,name,description,price,image);
+                String brand = resultSet.getString("brand");
+                product = new Product(id,name,description,price,image,brand);
             }
             if(resultSet != null){
                 resultSet.close();
@@ -71,6 +73,35 @@ public class ProductDAO implements IProductDAO{
             e.printStackTrace();
         }
         return product;
+    }
+
+    @Override
+    public List<Product> searchByName(String string) {
+
+        List<Product> productList = new ArrayList<>();
+        try (
+                Connection connection = mySqlConnection.getConnection();
+                PreparedStatement statement = connection.prepareStatement(QUERY_SEARCH_BY_NAME);
+        )
+        {
+            statement.setString(1,string);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                long price = resultSet.getLong("price");
+                String image = resultSet.getString("image");
+
+                productList.add(new Product(id,name,price,image));
+            }
+            if(resultSet != null){
+                resultSet.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+
     }
 
     @Override

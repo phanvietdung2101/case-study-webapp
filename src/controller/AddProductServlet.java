@@ -32,16 +32,35 @@ public class AddProductServlet extends HttpServlet {
             String msg = "Add success";
             request.setAttribute("msg",msg);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/addProduct.jsp");
-        dispatcher.forward(request,response);
+        showAddProductForm(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if(action == null){
+            action = "";
+        }
+        switch (action){
+            default:
+                showAddProductForm(request,response);
+                break;
+        }
+
+    }
+
+    private void showAddProductForm(HttpServletRequest request, HttpServletResponse response) {
         List<Tag> tagList = productDAO.listAllTagName();
         List<Category> categoryList = productDAO.listAllCategoryName();
         request.setAttribute("tagList",tagList);
         request.setAttribute("categoryList",categoryList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/addProduct.jsp");
-        dispatcher.forward(request,response);
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }
