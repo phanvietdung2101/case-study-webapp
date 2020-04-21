@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ProductDAO implements IProductDAO{
 
-    private static final String QUERY_FIND_ALL = "SELECT * FROM view_all";
+    private static final String QUERY_FIND_ALL = "SELECT * FROM view_all LIMIT 12 OFFSET ?";
     private static final String QUERY_FIND_BY_ID = "{call view_product_detail(?)}";
     private static final String QUERY_FIND_CATEGORY = "{call view_product_by_category(?)}";
     private static final String QUERY_LIST_CATEGORY = "SELECT * FROM Category";
@@ -22,18 +22,21 @@ public class ProductDAO implements IProductDAO{
     private static final String QUERY_ADD_PRODUCT_CATEGORY = "insert into Product_category values (?,?)";
     private static final String QUERY_ADD_PRODUCT_TAG = "insert into Product_tag values (?,?)" ;
     private static final String QUERY_SEARCH_BY_NAME = "{call search_by_name(?)}";
+    private static final String QUERY_FIND_TOTAL_PAGE = "select count(id) `totalRecord` from view_all";
 
     private MySqlConnection mySqlConnection = new MySqlConnection();
 
     @Override
-    public List<Product> findAll() {
+    public List<Product> findAll(int page) {
         List<Product> productList = new ArrayList<>();
         try (
                 Connection connection = mySqlConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(QUERY_FIND_ALL);
-                ResultSet resultSet = statement.executeQuery()
             )
         {
+            statement.setInt(1,(page-1) * 12);
+            ResultSet resultSet = statement.executeQuery();
+
             while (resultSet.next()){
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
@@ -102,6 +105,26 @@ public class ProductDAO implements IProductDAO{
         }
         return productList;
 
+    }
+
+    @Override
+    public int totalPageProduct() {
+        int totalPage = 0;
+        try (Connection connection = mySqlConnection.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY_FIND_TOTAL_PAGE);
+        ResultSet rs = statement.executeQuery()){
+            int totalRecord = 0;
+            if(rs.next()) {
+                totalRecord = rs.getInt("totalRecord");
+            }
+            if((totalRecord % 12) > 0)
+                totalPage = ( totalRecord / 12 ) + 1;
+            else
+                totalPage = totalRecord / 12;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalPage;
     }
 
     @Override
@@ -312,12 +335,8 @@ public class ProductDAO implements IProductDAO{
         return tagList;
     }
 
-//    public static void main(String[] args) {
-//        ProductDAO productDAO = new ProductDAO();
-//        System.out.println(productDAO.addProduct(
-//                "iPhone 11 Pro Max",28990000,
-//                "https://cdn.cellphones.com.vn/media/catalog/product/cache/7/image/9df78eab33525d08d6e5fb8d27136e95/i/p/iphone-11-pro-max-space-select-2019.png"
-//                ,"this is iphone",1,1
-//        ));
-//    }
+    public static void main(String[] args) {
+        ProductDAO productDAO = new ProductDAO();
+        System.out.println(productDAO.totalPageProduct());
+    }
 }

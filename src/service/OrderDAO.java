@@ -19,7 +19,7 @@ public class OrderDAO implements IOrderDAO {
     private static final String QUERY_FIND_ORDER_ID = "{call find_order_by_user_id(?)}";
     private static final String QUERY_ADD_ORDER = "{call create_new_order_by_user_id(?)}";
     private MySqlConnection mySqlConnection = new MySqlConnection();
-    private final String QUERY_FIND_ORDER_ITEM = "{call find_order_list(?)}";
+    private final String QUERY_FIND_ORDER_ITEM = "{call find_order_item_by_user_id(?)}";
 
     @Override
     public List<OrderItem> findAllOrderItemByUserId(int user_id) {

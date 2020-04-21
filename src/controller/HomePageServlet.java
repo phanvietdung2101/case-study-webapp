@@ -113,6 +113,12 @@ public class HomePageServlet extends HttpServlet {
     private void showHomepage(HttpServletRequest request, HttpServletResponse response) {
         String category_name = request.getParameter("category");
         String tag_name = request.getParameter("tag");
+        String page = request.getParameter("page");
+        if(page == null){
+            page = "1";
+        }
+        int page_number = Integer.parseInt(page);
+
         List<Product> productList;
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/home/filter-product.jsp");
 
@@ -126,7 +132,7 @@ public class HomePageServlet extends HttpServlet {
             productList = productDAO.findTag(tag_name);
         }
         else {
-            productList = productDAO.findAll();
+            productList = productDAO.findAll(page_number);
             dispatcher = request.getRequestDispatcher("index.jsp");
         }
 
@@ -134,7 +140,9 @@ public class HomePageServlet extends HttpServlet {
 
         List<Category> categoryList = productDAO.listAllCategoryName();
         List<Tag> tagList = productDAO.listAllTagName();
+        int totalPage = productDAO.totalPageProduct();
 
+        request.setAttribute("totalPage",totalPage);
         request.setAttribute("categoryList",categoryList);
         request.setAttribute("tagList",tagList);
         request.setAttribute("productList",productList);

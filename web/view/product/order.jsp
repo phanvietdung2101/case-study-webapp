@@ -16,44 +16,72 @@
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Simple Ecommerce</a>
+        <a class="navbar-brand" href="/index">Simple Ecommerce</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
             <ul class="navbar-nav m-auto">
-                <li class="nav-item m-auto">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="category.html">Categories</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="product.html">Product</a>
+                    <a class="nav-link" href="/index">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="contact.html">Cart <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Categories <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
+                    <a class="nav-link" href="#">Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/order">Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account">Account</a>
                 </li>
             </ul>
 
-            <form class="form-inline my-2 my-lg-0">
+            <form class="form-inline my-2 my-lg-0" method="get" action="/index">
                 <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
+                    <input type="hidden" value="search" name="action">
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="string" placeholder="Search...">
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-secondary btn-number">
+                        <button type="submit" class="btn btn-secondary btn-number">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
                 </div>
-                <a class="btn btn-success btn-sm ml-3" href="cart.html">
+                <%--                Cart --%>
+                <a class="btn btn-success btn-sm ml-3" href="/order">
                     <i class="fa fa-shopping-cart"></i> Cart
                     <span class="badge badge-light">3</span>
                 </a>
+                <div class="dropdown">
+                    <button class="btn btn-success btn-sm ml-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <%--                        <%--%>
+                        <%--                            if(session.getAttribute("username") != null){--%>
+                        <%--                        %>--%>
+                        <%--                        <a class="dropdown-item" >Hello, <%=session.getAttribute("username") %></a>--%>
+                        <%--                        <%} %>--%>
+                        <c:if test="${sessionScope['user'] != null}">
+                            <a class="dropdown-item">
+                                Hello, <c:out value="${sessionScope['user'].getName()}"></c:out>
+                            </a>
+                            <a class="dropdown-item" href="/account">Account detail</a>
+                            <a class="dropdown-item" href="/account?action=change">Change password</a>
+                            <a class="dropdown-item" href="/account?action=logout">Log out</a>
+                        </c:if>
+                        <c:if test="${sessionScope['user'] == null}">
+                            <a class="dropdown-item" href="/login">Login</a>
+                            <a class="dropdown-item" href="/login?action=register_user">Register user</a>
+                        </c:if>
+
+                    </div>
+                </div>
             </form>
+
         </div>
     </div>
 </nav>

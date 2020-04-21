@@ -17,7 +17,7 @@
     color: #c01508;
     text-align: center;
     font-weight: bold;
-    font-size: 200%;
+    font-size: 150%;
     margin-bottom: 0;
 }
 .add_to_cart_block .price_discounted {
@@ -55,9 +55,12 @@ footer a {
     color: #f8f9fa!important
 }
 .card img{
-    max-height: 250px;
-}
+     max-height: 232px;
+ }
 .card {
     margin-top: 10px;
     padding: 10px;
+}
+.card-title {
+    height: 50px;
 }
