@@ -68,7 +68,7 @@
                         <%--                        <%} %>--%>
                         <c:if test="${sessionScope['user'] != null}">
                             <a class="dropdown-item">
-                                Hello, <c:out value="${requestScope['user'].getName()}"></c:out>
+                                Hello, <c:out value="${sessionScope['user'].getName()}"></c:out>
                             </a>
                             <a class="dropdown-item" href="/account">Account detail</a>
                             <a class="dropdown-item" href="/account?action=change">Change password</a>

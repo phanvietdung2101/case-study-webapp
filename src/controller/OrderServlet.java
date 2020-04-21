@@ -1,6 +1,7 @@
 package controller;
 
 import model.OrderItem;
+import model.User;
 import service.OrderDAO;
 
 import javax.servlet.RequestDispatcher;
@@ -9,9 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "OrderServlet",urlPatterns = "/order")
@@ -56,11 +55,16 @@ public class OrderServlet extends HttpServlet {
     }
 
     private void showOrderList(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String username = String.valueOf(request.getSession(false).getAttribute("username"));
-        if(username == "null"){
+        User user = (User) request.getSession(false).getAttribute("user");
+        if(user == null){
             response.sendRedirect("/login");
         } else {
-            List<OrderItem> orderItemList = orderDAO.findAllOrderItemByUsername(username);
+            int user_id = user.getId();
+
+            if(!orderDAO.findOrderByUserId(user_id)){
+                orderDAO.createNewOrder(user_id);
+            }
+            List<OrderItem> orderItemList = orderDAO.findAllOrderItemByUserId(user_id);
             int totalPrice = 0;
             for(OrderItem orderItem : orderItemList){
                 totalPrice += orderItem.getItem_price();

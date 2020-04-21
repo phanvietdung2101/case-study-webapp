@@ -76,6 +76,9 @@ public class HomePageServlet extends HttpServlet {
                 int product_id = Integer.parseInt(request.getParameter("product_id"));
                 int user_id = user.getId();
                 OrderDAO orderDAO = new OrderDAO();
+                if(!orderDAO.findOrderByUserId(user_id)){
+                    orderDAO.createNewOrder(user_id);
+                }
                 orderDAO.addOrderItem(product_id, user_id);
                 response.sendRedirect("/index");
             } else {

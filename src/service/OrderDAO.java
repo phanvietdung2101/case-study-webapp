@@ -6,24 +6,29 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderDAO implements IOrderDAO {
     private static final String QUERY_REMOVE_ORDER_ITEM = "{call remove_order_item(?)}";
     private static final String QUERY_CHECK_OUT_ORDER = "{call check_out_all_item(?)}";
     private static final String QUERY_ADD_ORDER_ITEM = "{call addOrderItem(?,?)}";
+    private static final String QUERY_FIND_ORDER_ID = "{call find_order_by_user_id(?)}";
+    private static final String QUERY_ADD_ORDER = "{call create_new_order_by_user_id(?)}";
     private MySqlConnection mySqlConnection = new MySqlConnection();
     private final String QUERY_FIND_ORDER_ITEM = "{call find_order_list(?)}";
 
     @Override
-    public List<OrderItem> findAllOrderItemByUsername(String username) {
+    public List<OrderItem> findAllOrderItemByUserId(int user_id) {
         List<OrderItem> orderItemList = new ArrayList<>();
         try(
                 Connection connection = mySqlConnection.getConnection();
                 CallableStatement statement = connection.prepareCall(QUERY_FIND_ORDER_ITEM);
         ) {
-            statement.setString(1,username);
+            statement.setInt(1,user_id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 int id = resultSet.getInt("id");
@@ -87,6 +92,42 @@ public class OrderDAO implements IOrderDAO {
             e.printStackTrace();
         }
         return isAdd;
+    }
+
+    @Override
+    public boolean findOrderByUserId(int user_id) {
+        boolean isExist = false;
+        try (
+            Connection conn = mySqlConnection.getConnection();
+            CallableStatement statement = conn.prepareCall(QUERY_FIND_ORDER_ID);
+        ) {
+            statement.setInt(1,user_id);
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                isExist = true;
+            }
+            if(rs != null){
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isExist;
+    }
+
+    @Override
+    public boolean createNewOrder(int user_id) {
+        boolean isCreate = false;
+        try (
+            Connection conn = mySqlConnection.getConnection();
+            CallableStatement statement = conn.prepareCall(QUERY_ADD_ORDER)
+        ){
+            statement.setInt(1,user_id);
+            isCreate = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isCreate;
     }
 
     public static void main(String[] args) {
